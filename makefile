@@ -71,12 +71,15 @@ install:
 
 clean:
 	rm -f *.o ${MOD_NAME}/*.o *.${libsuffix}
+fresh:
+	make clean
+	make default
 
 debian/changelog: ${MOD_NAME} makefile sundown/*.c sundown/*.h \
 		  debian/rules debian/control debian/changelog.base
 	cat debian/changelog.base | etc/gitchangelog kno-sundown > $@
 
-debian.built: sundown.c makefile sundow/*.c sundown/*.h \
+debian.built: sundown.c makefile sundown/*.c sundown/*.h \
 		debian/rules debian/control debian/changelog
 	dpkg-buildpackage -sa -us -uc -b -rfakeroot && \
 	touch $@
