@@ -1,4 +1,4 @@
-PACKAGE=${1:-kno-mongo}
+PACKAGE=${1:-kno-sundown}
 DISTRIBUTION=${2:-stable}
 URGENCY=medium
 DATE=`date -R`

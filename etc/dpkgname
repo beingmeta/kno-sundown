@@ -1,2 +1,2 @@
 #!/bin/sh
-git describe | sed -e "s/-g[0123456789ABCDEFabcdef]*$//" | sed -e "s/kno-mongo-/kno-mongo_/"
+git describe | sed -e "s/-g[0123456789ABCDEFabcdef]*$//" | sed -e "s/kno-sundown-/kno-sundown_/"
