@@ -58,14 +58,14 @@ install:
 	@echo === Installed ${CMODULES}/${MOD_NAME}.so.${MOD_VERSION}
 	@${SUDO} ln -sf ${MOD_NAME}.so.${MOD_VERSION} \
 			${CMODULES}/${MOD_NAME}.so.${KNO_MAJOR}.${KNO_MINOR}
-	@echo === Linked ${CMODULES}/mongodb.so.${KNO_MAJOR}.${KNO_MINOR} \
-		to mongodb.so.${MOD_VERSION}
-	@${SUDO} ln -sf mongodb.so.${MOD_VERSION} \
-			${CMODULES}/mongodb.so.${KNO_MAJOR}
-	@echo === Linked ${CMODULES}/mongodb.so.${KNO_MAJOR} \
-		to mongodb.so.${MOD_VERSION}
-	@${SUDO} ln -sf mongodb.so.${MOD_VERSION} ${CMODULES}/mongodb.so
-	@echo === Linked ${CMODULES}/mongodb.so to mongodb.so.${MOD_VERSION}
+	@echo === Linked ${CMODULES}/${MOD_NAME}.so.${KNO_MAJOR}.${KNO_MINOR} \
+		to ${MOD_NAME}.so.${MOD_VERSION}
+	@${SUDO} ln -sf ${MOD_NAME}.so.${MOD_VERSION} \
+			${CMODULES}/${MOD_NAME}.so.${KNO_MAJOR}
+	@echo === Linked ${CMODULES}/${MOD_NAME}.so.${KNO_MAJOR} \
+		to ${MOD_NAME}.so.${MOD_VERSION}
+	@${SUDO} ln -sf ${MOD_NAME}.so.${MOD_VERSION} ${CMODULES}/${MOD_NAME}.so
+	@echo === Linked ${CMODULES}/${MOD_NAME}.so to ${MOD_NAME}.so.${MOD_VERSION}
 
 clean:
 	rm -f *.o ${MOD_NAME}/*.o *.${libsuffix}
