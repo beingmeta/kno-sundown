@@ -43,10 +43,10 @@ default: ${MOD_NAME}.${libsuffix}
 sundown.so: sundown.c $(SUNDOWN_OBJECTS)
 	@$(MKSO) $(CFLAGS) -o $@ sundown.c $(SUNDOWN_OBJECTS)
 	@$(MSG) MKSO  $@ $<
-	@ln -sf $(@F) $(@D)/$(@F).@KNO_MAJOR@
+	@ln -sf $(@F) $(@D)/$(@F).${KNO_MAJOR}
 sundown.dylib: sundown.c $(SUNDOWN_OBJECTS)
 	@$(MACLIBTOOL) -install_name \
-		`basename $(@F) .dylib`.@KNO_MAJOR@.dylib \
+		`basename $(@F) .dylib`.${KNO_MAJOR}.dylib \
 		${CFLAGS} -o $@ $(DYLIB_FLAGS) \
 		sundown.c $(SUNDOWN_OBJECTS)
 	@$(MSG) MACLIBTOOL  $@ $<
