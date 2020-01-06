@@ -86,6 +86,9 @@ debian.signed: debian.built
 	debsign --re-sign -k${GPGID} ../kno-sundown_*.changes && \
 	touch $@
 
+debinstall: debian.signed
+	sudo dpkg -i ../kno-sundown_${MOD_VERSION}*.deb
+
 debian.updated: debian.signed
 	dupload -c ./debian/dupload.conf --nomail --to bionic ../kno-sundown_*.changes && touch $@
 
