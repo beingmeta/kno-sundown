@@ -94,6 +94,9 @@ debian.updated: debian.signed
 
 update-apt: debian.updated
 
+debinstall: debian.signed
+	${SUDO} dpkg -i ../kno-sundown*.deb
+
 debclean:
 	rm -f ../kno-sundown_* ../kno-sundown-* debian/changelog
 

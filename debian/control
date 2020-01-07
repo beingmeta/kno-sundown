@@ -10,6 +10,5 @@ Package: kno-sundown
 Section: libdevel
 Architecture: any
 Depends: kno-core
-Conflicts: kno-sundown
 Description: Sundown module for KNO
 
