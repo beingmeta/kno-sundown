@@ -73,7 +73,7 @@ fresh:
 	make clean
 	make default
 
-debian/changelog: ${MOD_NAME} makefile sundown/*.c sundown/*.h \
+debian/changelog: ${MOD_NAME}.c makefile sundown/*.c sundown/*.h \
 		  debian/rules debian/control debian/changelog.base
 	cat debian/changelog.base | etc/gitchangelog kno-sundown > $@
 
@@ -94,12 +94,9 @@ debian.updated: debian.signed
 
 update-apt: debian.updated
 
-debinstall: debian.signed
-	${SUDO} dpkg -i ../kno-sundown*.deb
-
 debclean:
 	rm -f ../kno-sundown_* ../kno-sundown-* debian/changelog
 
 debfresh:
 	make debclean
-	make debian.built
+	make debian.signed
