@@ -73,12 +73,17 @@ fresh:
 	make clean
 	make default
 
-debian/changelog: ${MOD_NAME}.c makefile sundown/*.c sundown/*.h \
-		  debian/rules debian/control debian/changelog.base
+debian: sundown.c sundown/*.c sundown/*.h makefile \
+	dist/debian/rules dist/debian/control \
+	dist/debian/changelog.base
+	rm -rf debian
+	cp -r dist/debian debian
+	cat debian/changelog.base | etc/gitchangelog kno-sundown > debian/changelog
+
+debian/changelog: debian sundown.c sundown/*.c sundown/*.h makefile
 	cat debian/changelog.base | etc/gitchangelog kno-sundown > $@
 
-debian.built: sundown.c makefile sundown/*.c sundown/*.h \
-		debian/rules debian/control debian/changelog
+debian.built: sundown.c makefile debian debian/changelog
 	dpkg-buildpackage -sa -us -uc -b -rfakeroot && \
 	touch $@
 
