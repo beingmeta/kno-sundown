@@ -78,10 +78,12 @@ debian: sundown.c sundown/*.c sundown/*.h makefile \
 	dist/debian/changelog.base
 	rm -rf debian
 	cp -r dist/debian debian
-	cat debian/changelog.base | etc/gitchangelog kno-sundown > debian/changelog
 
 debian/changelog: debian sundown.c sundown/*.c sundown/*.h makefile
-	cat debian/changelog.base | etc/gitchangelog kno-sundown > $@
+	cat debian/changelog.base | etc/gitchangelog kno-sundown > $@.tmp
+	if diff debian/changelog debian/changelog.tmp 2>&1 > /dev/null; then \
+	  mv debian/changelog.tmp debian/changelog; \
+	else rm debian/changelog.tmp; fi
 
 debian.built: sundown.c makefile debian debian/changelog
 	dpkg-buildpackage -sa -us -uc -b -rfakeroot && \
@@ -90,6 +92,8 @@ debian.built: sundown.c makefile debian debian/changelog
 debian.signed: debian.built
 	debsign --re-sign -k${GPGID} ../kno-sundown_*.changes && \
 	touch $@
+
+dpkg dpkgs: debian.signed
 
 debinstall: debian.signed
 	sudo dpkg -i ../kno-sundown_${MOD_VERSION}*.deb
