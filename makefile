@@ -81,31 +81,33 @@ debian: sundown.c sundown/*.c sundown/*.h makefile \
 
 debian/changelog: debian sundown.c sundown/*.c sundown/*.h makefile
 	cat debian/changelog.base | etc/gitchangelog kno-sundown > $@.tmp
-	if diff debian/changelog debian/changelog.tmp 2>&1 > /dev/null; then \
+	@if test ! -f debian/changelog; then \
 	  mv debian/changelog.tmp debian/changelog; \
-	else rm debian/changelog.tmp; fi
+	 elif diff debian/changelog debian/changelog.tmp 2>&1 > /dev/null; then \
+	  mv debian/changelog.tmp debian/changelog; \
+	 else rm debian/changelog.tmp; fi
 
-debian.built: sundown.c makefile debian debian/changelog
+dist/debian.built: sundown.c makefile debian debian/changelog
 	dpkg-buildpackage -sa -us -uc -b -rfakeroot && \
 	touch $@
 
-debian.signed: debian.built
+dist/debian.signed: dist/debian.built
 	debsign --re-sign -k${GPGID} ../kno-sundown_*.changes && \
 	touch $@
 
-dpkg dpkgs: debian.signed
+deb debs dpkg dpkgs: dist/debian.signed
 
-debinstall: debian.signed
+debinstall: dist/debian.signed
 	sudo dpkg -i ../kno-sundown_${MOD_VERSION}*.deb
 
-debian.updated: debian.signed
+dist/debian.updated: dist/debian.signed
 	dupload -c ./debian/dupload.conf --nomail --to bionic ../kno-sundown_*.changes && touch $@
 
-update-apt: debian.updated
+update-apt: dist/debian.updated
 
 debclean:
 	rm -f ../kno-sundown_* ../kno-sundown-* debian/changelog
 
 debfresh:
 	make debclean
-	make debian.signed
+	make dist/debian.signed
