@@ -106,7 +106,7 @@ dist/debian.updated: dist/debian.signed
 update-apt: dist/debian.updated
 
 debclean:
-	rm -f ../kno-sundown_* ../kno-sundown-* debian/changelog
+	rm -rf ../kno-sundown_* ../kno-sundown-* debian
 
 debfresh:
 	make debclean
