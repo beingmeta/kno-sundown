@@ -36,7 +36,7 @@ SUNDOWN_H_FILES=sundown/autolink.h \
 	sundown/html_blocks.h sundown/html.h \
 	sundown/houdini.h
 
-default: ${MOD_NAME}.${libsuffix}
+default build: ${MOD_NAME}.${libsuffix}
 
 sundown.so: sundown.c $(SUNDOWN_OBJECTS)
 	@$(MKSO) $(CFLAGS) -o $@ sundown.c $(SUNDOWN_OBJECTS)
@@ -52,7 +52,7 @@ sundown.dylib: sundown.c $(SUNDOWN_OBJECTS)
 TAGS: sundown.c sundown/*.c sundown/*.h
 	etags -o TAGS sundown.c sundown/*.c sundown/*.h
 
-install:
+install: build
 	@${SUDO} ${SYSINSTALL} ${MOD_NAME}.${libsuffix} \
 			${CMODULES}/${MOD_NAME}.so.${MOD_VERSION}
 	@echo === Installed ${CMODULES}/${MOD_NAME}.so.${MOD_VERSION}
