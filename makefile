@@ -101,7 +101,7 @@ debinstall: dist/debian.signed
 	sudo dpkg -i ../kno-sundown_${MOD_VERSION}*.deb
 
 dist/debian.updated: dist/debian.signed
-	dupload -c ./debian/dupload.conf --nomail --to bionic ../kno-sundown_*.changes && touch $@
+	dupload -c ./dist/dupload.conf --nomail --to bionic ../kno-sundown_*.changes && touch $@
 
 update-apt: dist/debian.updated
 
