@@ -1,0 +1,31 @@
+# Contributor: beingmeta repository manager <repoman@beingmeta.com>
+# Maintainer: beingmeta repository manager <repoman@beingmeta.com>
+pkgname=kno-sundown
+pkgver=$(knoconfig major).$(knoconfig minor).1
+pkgrel=18
+pkgdesc="Sundown (Markdown) bindings for KNO"
+url="https://kno.so/"
+arch="all"
+license="GPLV3"
+depends=""
+makedepends="kno"
+install=""
+#subpackages="$pkgname-dev $pkgname-doc"
+subpackages=""
+source="https://github.com/beingmeta/kno-sundown/archive/trunk.tar.gz"
+builddir="kno-sundown-trunk"
+
+build() {
+	git clone git@github.com:mongodb/mongo-c-driver.git
+	make -j
+}
+
+check() {
+	make
+}
+
+package() {
+	cd src/${builddir}
+	make DESTDIR="$pkgdir" SUDO= install
+}
+sha512sums="539b2247b1d09c8ffbe89be7cbd93202d2ba1bc99f93be4532f5d8d532f7c7134df802b7666ea3b018486233fe8225369f6850a0aa6eb07142124e98f358bd1f  trunk.tar.gz"

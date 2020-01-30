@@ -17,9 +17,11 @@ DPKG_NAME	::= $(shell ./etc/dpkgname)
 MKSO		::= $(CC) -shared $(LDFLAGS) $(LIBS)
 MSG		::= echo
 SYSINSTALL      ::= /usr/bin/install -c
+DIRINSTALL      ::= /usr/bin/install -d
 MOD_NAME	::= sundown
 MOD_RELEASE     ::= $(shell cat etc/release)
 MOD_VERSION	::= ${KNO_MAJOR}.${KNO_MINOR}.${MOD_RELEASE}
+APKREPO         ::= $(shell ${KNOCONFIG} apkrepo)
 
 GPGID = FE1BC737F9F323D732AA26330620266BE5AFF294
 SUDO  = $(shell which sudo)
@@ -55,7 +57,10 @@ sundown.dylib: sundown.c $(SUNDOWN_OBJECTS)
 TAGS: sundown.c sundown/*.c sundown/*.h
 	etags -o TAGS sundown.c sundown/*.c sundown/*.h
 
-install: build
+${CMODULES}:
+	@${DIRINSTALL} $@
+
+install: build ${CMODULES}
 	@${SUDO} ${SYSINSTALL} ${MOD_NAME}.${libsuffix} \
 			${CMODULES}/${MOD_NAME}.so.${MOD_VERSION}
 	@echo === Installed ${CMODULES}/${MOD_NAME}.so.${MOD_VERSION}
@@ -114,3 +119,16 @@ debclean: clean
 debfresh:
 	make debclean
 	make dist/debian.signed
+
+# Alpine packaging
+
+dist/alpine.done: dist/alpine/APKBUILD
+	cd dist/alpine; \
+		abuild -P ${APKREPO} clean cleancache cleanpkg && \
+		abuild -P ${APKREPO} checksum && \
+		abuild -P ${APKREPO} && \
+		cd ../..; touch $@
+
+alpine: dist/alpine.done
+
+.PHONY: alpine
