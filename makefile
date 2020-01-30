@@ -127,13 +127,14 @@ staging/alpine/APKBUILD: dist/alpine/APKBUILD
 	if test ! -d staging/alpine; then mkdir staging/alpine; fi
 	cp dist/alpine/APKBUILD staging/alpine/APKBUILD
 
-staging/alpine.done: staging/alpine/APKBUILD
+dist/alpine.done: staging/alpine/APKBUILD
 	cd dist/alpine; \
-		abuild -P ${APKREPO} clean cleancache cleanpkg && \
+		abuild -P ${APKREPO} clean cleancache cleanpkg
+	cd staging/alpine; \
 		abuild -P ${APKREPO} checksum && \
 		abuild -P ${APKREPO} && \
 		cd ../..; touch $@
 
-alpine: staging/alpine.done
+alpine: dist/alpine.done
 
 .PHONY: alpine
