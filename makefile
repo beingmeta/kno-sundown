@@ -122,19 +122,27 @@ debfresh:
 
 # Alpine packaging
 
-staging/alpine/APKBUILD: dist/alpine/APKBUILD
-	if test ! -d staging; then mkdir staging; fi
-	if test ! -d staging/alpine; then mkdir staging/alpine; fi
-	cp dist/alpine/APKBUILD staging/alpine/APKBUILD
+${APKREPO}/dist/x86_64:
+	@install -d $@
 
-dist/alpine.done: staging/alpine/APKBUILD
-	cd dist/alpine; \
-		abuild -P ${APKREPO} clean cleancache cleanpkg
+staging/alpine:
+	@install -d $@
+
+staging/alpine/APKBUILD: dist/alpine/APKBUILD staging/alpine
+	cp dist/alpine/APKBUILD staging/alpine
+
+staging/alpine/kno-${MOD_NAME}.tar: staging/alpine
+	git archive --prefix=kno-${MOD_NAME}/ -o staging/alpine/kno-${MOD_NAME}.tar HEAD
+
+dist/alpine.done: staging/alpine/APKBUILD makefile \
+	staging/alpine/kno-${MOD_NAME}.tar ${APKREPO}/dist/x86_64
 	cd staging/alpine; \
-		abuild -P ${APKREPO} checksum && \
+		abuild -P ${APKREPO} clean cleancache cleanpkg && \
+		abuild checksum && \
 		abuild -P ${APKREPO} && \
-		cd ../..; touch $@
+		touch ../../$@
 
 alpine: dist/alpine.done
 
 .PHONY: alpine
+
