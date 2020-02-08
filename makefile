@@ -3,12 +3,6 @@ KNOBUILD          = knobuild
 
 prefix		::= $(shell ${KNOCONFIG} prefix)
 libsuffix	::= $(shell ${KNOCONFIG} libsuffix)
-KNO_CFLAGS	::= -I. -fPIC $(shell ${KNOCONFIG} cflags)
-KNO_LDFLAGS	::= -fPIC $(shell ${KNOCONFIG} ldflags)
-SUNDOWN_CFLAGS	::= -I./sundown/
-SUNDOWN_LDFLAGS	::= 
-INIT_CFLAGS	::= ${CFLAGS}
-INIT_LDFLAGS	::= ${LDFLAGS}
 CMODULES	::= $(DESTDIR)$(shell ${KNOCONFIG} cmodules)
 LIBS		::= $(shell ${KNOCONFIG} libs)
 LIB		::= $(shell ${KNOCONFIG} lib)
@@ -19,6 +13,13 @@ KNO_MINOR	::= $(shell ${KNOCONFIG} minor)
 PKG_RELEASE	::= $(cat ./etc/release)
 DPKG_NAME	::= $(shell ./etc/dpkgname)
 SUDO            ::= $(shell which sudo)
+
+INIT_CFLAGS	::= ${CFLAGS}
+INIT_LDFLAGS	::= ${LDFLAGS}
+KNO_CFLAGS	::= -I. -fPIC $(shell ${KNOCONFIG} cflags)
+KNO_LDFLAGS	::= -fPIC $(shell ${KNOCONFIG} ldflags)
+SUNDOWN_CFLAGS	::= -I./sundown/
+SUNDOWN_LDFLAGS	::= 
 
 CFLAGS		::= ${INIT_CFLAGS} ${KNO_CFLAGS} ${SUNDOWN_CFLAGS}
 LDFLAGS		::= ${INIT_LDFLAGS} ${KNO_LDFLAGS} ${SUNDOWN_LDFLAGS}
