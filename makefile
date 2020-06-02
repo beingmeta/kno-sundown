@@ -131,7 +131,7 @@ dist/debian.signed: dist/debian.built
 deb debs dpkg dpkgs: dist/debian.signed
 
 debinstall: dist/debian.signed
-	${SUDO} dpkg -i ../kno-sundown_${PKG_VERSION}*.deb
+	${SUDO} dpkg -i ../kno-sundown*.deb
 
 dist/debian.updated: dist/debian.signed
 	dupload -c ./dist/dupload.conf --nomail --to bionic ../kno-sundown_*.changes && touch $@
