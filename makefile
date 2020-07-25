@@ -60,7 +60,6 @@ default build: ${PKG_NAME}.${libsuffix}
 
 sundown.so: sundown.c $(SUNDOWN_OBJECTS)
 	@$(MKSO) $(CFLAGS) -o $@ sundown.c $(SUNDOWN_OBJECTS)
-	@if test ! -z "${COPY_CMODS}"; then cp $@ ${COPY_CMODS}; fi;
 	@$(MSG) MKSO  $@ $<
 	@ln -sf $(@F) $(@D)/$(@F).${KNO_MAJOR}
 sundown.dylib: sundown.c $(SUNDOWN_OBJECTS)
@@ -68,7 +67,6 @@ sundown.dylib: sundown.c $(SUNDOWN_OBJECTS)
 		`basename $(@F) .dylib`.${KNO_MAJOR}.dylib \
 		${CFLAGS} -o $@ $(DYLIB_FLAGS) \
 		sundown.c $(SUNDOWN_OBJECTS)
-	@if test ! -z "${COPY_CMODS}"; then cp $@ ${COPY_CMODS}; fi;
 	@$(MSG) MACLIBTOOL  $@ $<
 
 TAGS: sundown.c sundown/*.c sundown/*.h
