@@ -33,6 +33,8 @@ MKSO		  = $(CC) -shared $(LDFLAGS) $(LIBS)
 SYSINSTALL        = /usr/bin/install -c
 DIRINSTALL        = /usr/bin/install -d
 MSG		  = echo
+MACLIBTOOL	  = $(CC) -dynamiclib -single_module -undefined dynamic_lookup \
+			$(LDFLAGS)
 
 GPGID             = FE1BC737F9F323D732AA26330620266BE5AFF294
 CODENAME	::= $(shell ${KNOCONFIG} codename)
@@ -76,23 +78,7 @@ ${CMODULES}:
 	@${DIRINSTALL} $@
 
 install: build ${CMODULES}
-	@${SUDO} ${SYSINSTALL} ${PKG_NAME}.${libsuffix} \
-			${CMODULES}/${PKG_NAME}.so.${FULL_VERSION}
-	@echo === Installed ${CMODULES}/${PKG_NAME}.so.${FULL_VERSION}
-	@${SUDO} ln -sf ${PKG_NAME}.so.${FULL_VERSION} \
-			${CMODULES}/${PKG_NAME}.so.${KNO_MAJOR}.${KNO_MINOR}.${PKG_MAJOR}
-	@echo === Linked ${CMODULES}/${PKG_NAME}.so.${KNO_MAJOR}.${KNO_MINOR}.${PKG_MAJOR} \
-		to ${PKG_NAME}.so.${FULL_VERSION}
-	@${SUDO} ln -sf ${PKG_NAME}.so.${FULL_VERSION} \
-			${CMODULES}/${PKG_NAME}.so.${KNO_MAJOR}.${KNO_MINOR}
-	@echo === Linked ${CMODULES}/${PKG_NAME}.so.${KNO_MAJOR}.${KNO_MINOR} \
-		to ${PKG_NAME}.so.${FULL_VERSION}
-	@${SUDO} ln -sf ${PKG_NAME}.so.${FULL_VERSION} \
-			${CMODULES}/${PKG_NAME}.so.${KNO_MAJOR}
-	@echo === Linked ${CMODULES}/${PKG_NAME}.so.${KNO_MAJOR} \
-		to ${PKG_NAME}.so.${FULL_VERSION}
-	@${SUDO} ln -sf ${PKG_NAME}.so.${FULL_VERSION} ${CMODULES}/${PKG_NAME}.so
-	@echo === Linked ${CMODULES}/${PKG_NAME}.so to ${PKG_NAME}.so.${FULL_VERSION}
+	${SUDO} u8_install_shared ${PKG_NAME}.${libsuffix} ${CMODULES} ${FULL_VERSION} "${SYSINSTALL}"
 
 clean:
 	rm -f *.o ${PKG_NAME}/*.o *.${libsuffix}
