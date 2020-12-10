@@ -117,18 +117,19 @@ dist/debian.built: sundown.c makefile debian debian/changelog
 	touch $@
 
 dist/debian.signed: dist/debian.built
-	debsign --re-sign -k${GPGID} ../kno-sundown_*.changes && \
-	touch $@
+	@if test "${GPGID}" = "none" || test -z "${GPGID}"; then  	\
+	  echo "Skipping debian signing";				\
+	  touch $@;							\
+	else 								\
+	  echo debsign --re-sign -k${GPGID} ../kno-sundown_*.changes;	\
+	  debsign --re-sign -k${GPGID} ../kno-sundown_*.changes && 	\
+	  touch $@;							\
+	fi;
 
 deb debs dpkg dpkgs: dist/debian.signed
 
 debinstall: dist/debian.signed
 	${SUDO} dpkg -i ../kno-sundown*.deb
-
-dist/debian.updated: dist/debian.signed
-	dupload -c ./dist/dupload.conf --nomail --to bionic ../kno-sundown_*.changes && touch $@
-
-update-apt: dist/debian.updated
 
 debclean: clean
 	rm -rf ../kno-sundown_* ../kno-sundown-* debian dist/debian.*
