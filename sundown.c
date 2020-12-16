@@ -28,6 +28,11 @@ KNO_EXPORT int kno_init_sundown(void) KNO_LIBINIT_FN;
 
 static int sundown_init = 0;
 
+KNO_DEFCPRIM("markdown->html",markdown2html_prim,
+ KNO_MAX_ARGS(2)|KNO_MIN_ARGS(1),
+ "Converts a markdown string to HTML",
+ "mdstring",kno_string_type,KNO_VOID,
+ "opts",kno_any_type,KNO_VOID)
 static lispval markdown2html_prim(lispval mdstring,lispval opts)
 {
   lispval result = KNO_VOID;
@@ -52,6 +57,12 @@ static lispval markdown2html_prim(lispval mdstring,lispval opts)
   return result;
 }
 
+KNO_DEFCPRIM("markout",markout_prim,
+ KNO_MAX_ARGS(2)|KNO_MIN_ARGS(1),
+ "Outputs HTML for a markdown string to the "
+ "standard output",
+ "mdstring",kno_string_type,KNO_VOID,
+ "opts",kno_any_type,KNO_VOID)
 static lispval markout_prim(lispval mdstring,lispval opts)
 {
   U8_OUTPUT *out = u8_current_output;
@@ -94,14 +105,10 @@ KNO_EXPORT int kno_init_sundown()
 
 static void link_local_cprims()
 {
-  DEFPRIM2("MARKDOWN->HTML",markdown2html_prim,MIN_ARGS(1),
-           "Converts a markdown string to HTML",
-           kno_string_type,KNO_VOID,-1,KNO_VOID);
-  KNO_LINK_PRIM("MARKDOWN->HTML",markdown2html_prim,2,sundown_module);
+  
+  KNO_LINK_CPRIM("MARKDOWN->HTML",markdown2html_prim,2,sundown_module);
   KNO_LINK_ALIAS("MD->HTML",markdown2html_prim,sundown_module);
 
-  DEFPRIM2("MARKOUT",markout_prim,MIN_ARGS(1),
-           "Outputs HTML for a markdown string to the standard output",
-           kno_string_type,KNO_VOID,-1,KNO_VOID);
-  KNO_LINK_PRIM("MARKOUT",markout_prim,2,sundown_module);
+  
+  KNO_LINK_CPRIM("MARKOUT",markout_prim,2,sundown_module);
 }

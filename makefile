@@ -59,6 +59,10 @@ SUNDOWN_H_FILES=sundown/autolink.h \
 	sundown/html_blocks.h sundown/html.h \
 	sundown/houdini.h
 
+%.o: %.c
+	@$(CC) $(CFLAGS) -D_FILEINFO="\"$(shell u8_fileinfo ./$< $(dirname $(pwd))/)\"" -o $@ -c $<
+	@$(MSG) CC $@ $<
+
 default build: ${PKG_NAME}.${libsuffix}
 
 sundown.so: sundown.c $(SUNDOWN_OBJECTS)
