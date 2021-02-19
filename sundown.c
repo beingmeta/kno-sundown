@@ -28,7 +28,7 @@ KNO_EXPORT int kno_init_sundown(void) KNO_LIBINIT_FN;
 
 static int sundown_init = 0;
 
-KNO_DEFCPRIM("markdown->html",markdown2html_prim,
+DEFC_PRIM("markdown->html",markdown2html_prim,
  KNO_MAX_ARGS(2)|KNO_MIN_ARGS(1),
  "Converts a markdown string to HTML",
 	     {"mdstring",kno_string_type,KNO_VOID},
@@ -57,7 +57,7 @@ static lispval markdown2html_prim(lispval mdstring,lispval opts)
   return result;
 }
 
-KNO_DEFCPRIM("markout",markout_prim,
+DEFC_PRIM("markout",markout_prim,
  KNO_MAX_ARGS(2)|KNO_MIN_ARGS(1),
  "Outputs HTML for a markdown string to the "
  "standard output",
