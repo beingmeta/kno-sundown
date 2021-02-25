@@ -1,6 +1,7 @@
 /* -*- Mode: C; Character-encoding: utf-8; -*- */
 
 /* Copyright (C) 2004-2019 beingmeta, inc.
+   Copyright (C) 2020-2021 beingmeta, LLC
    This file is part of beingmeta's Kno platform and is copyright
    and a valuable trade secret of beingmeta, inc.
 */
@@ -29,10 +30,10 @@ KNO_EXPORT int kno_init_sundown(void) KNO_LIBINIT_FN;
 static int sundown_init = 0;
 
 DEFC_PRIM("markdown->html",markdown2html_prim,
- KNO_MAX_ARGS(2)|KNO_MIN_ARGS(1),
- "Converts a markdown string to HTML",
-	     {"mdstring",kno_string_type,KNO_VOID},
-	     {"opts",kno_any_type,KNO_VOID})
+	  KNO_MAX_ARGS(2)|KNO_MIN_ARGS(1),
+	  "Converts a markdown string to HTML",
+	  {"mdstring",kno_string_type,KNO_VOID},
+	  {"opts",kno_any_type,KNO_VOID})
 static lispval markdown2html_prim(lispval mdstring,lispval opts)
 {
   lispval result = KNO_VOID;
@@ -58,11 +59,11 @@ static lispval markdown2html_prim(lispval mdstring,lispval opts)
 }
 
 DEFC_PRIM("markout",markout_prim,
- KNO_MAX_ARGS(2)|KNO_MIN_ARGS(1),
- "Outputs HTML for a markdown string to the "
- "standard output",
-	     {"mdstring",kno_string_type,KNO_VOID},
-	     {"opts",kno_any_type,KNO_VOID})
+	  KNO_MAX_ARGS(2)|KNO_MIN_ARGS(1),
+	  "Outputs HTML for a markdown string to the "
+	  "standard output",
+	  {"mdstring",kno_string_type,KNO_VOID},
+	  {"opts",kno_any_type,KNO_VOID})
 static lispval markout_prim(lispval mdstring,lispval opts)
 {
   U8_OUTPUT *out = u8_current_output;
